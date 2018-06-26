@@ -1,0 +1,31 @@
+﻿@model LogBook.AttendanceDetail
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<div>
+    @Html.ActionLink("Back", "Index", "Home/Index")
+</div>  
+
+<h2>Daily Register</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.Partial("_RegisterPartialView", Model);
+
+    @*<div>
+        <input type="submit" value="Create" />
+
+    </div>
+
+    <div>
+        <input type="button" value="Cancel" onclick="location.href='@Url.Action("Index", "Home",new {id = UrlParameter.Optional })'" />
+    </div>*@
+}
+
+
+
+

@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LogBookModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AttendanceDetails">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AttendanceDate" Type="date" />
+    <Property Name="TrainingOn" Type="nvarchar" MaxLength="2000" />
+    <Property Name="Hour" Type="int" />
+    <Property Name="Mentor" Type="int" />
+    <Property Name="PersonId" Type="int" />
+  </EntityType>
+  <EntityType Name="AttendanceMaster">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AttendanceDetailId" Type="int" />
+  </EntityType>
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+    <Property Name="RoleId" Type="int" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Role" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK__Attendanc__Atten__182C9B23">
+    <End Role="AttendanceDetails" Type="Self.AttendanceDetails" Multiplicity="0..1" />
+    <End Role="AttendanceMaster" Type="Self.AttendanceMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AttendanceDetails">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AttendanceMaster">
+        <PropertyRef Name="AttendanceDetailId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Attendanc__Perso__15502E78">
+    <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+    <End Role="AttendanceDetails" Type="Self.AttendanceDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AttendanceDetails">
+        <PropertyRef Name="PersonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Person__RoleId__1273C1CD">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+    <End Role="Person" Type="Self.Person" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Person">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LogBookModelStoreContainer">
+    <EntitySet Name="AttendanceDetails" EntityType="Self.AttendanceDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AttendanceMaster" EntityType="Self.AttendanceMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Attendanc__Atten__182C9B23" Association="Self.FK__Attendanc__Atten__182C9B23">
+      <End Role="AttendanceDetails" EntitySet="AttendanceDetails" />
+      <End Role="AttendanceMaster" EntitySet="AttendanceMaster" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Attendanc__Perso__15502E78" Association="Self.FK__Attendanc__Perso__15502E78">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="AttendanceDetails" EntitySet="AttendanceDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Person__RoleId__1273C1CD" Association="Self.FK__Person__RoleId__1273C1CD">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="Person" EntitySet="Person" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

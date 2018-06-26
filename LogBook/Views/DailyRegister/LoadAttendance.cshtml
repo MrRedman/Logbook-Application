@@ -1,0 +1,25 @@
+﻿@model LogBook.AttendanceDetail
+
+
+
+@using (Ajax.BeginForm(
+
+     new AjaxOptions
+     {
+
+         HttpMethod = "GET",
+         InsertionMode = InsertionMode.Replace,
+         UpdateTargetId = "DailyRegister"
+
+     })) 
+{
+
+   @Html.Partial("_RegisterPartialView", Model);
+
+};
+
+
+
+
+
+

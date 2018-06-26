@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LogBookModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AttendanceDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AttendanceDate" Type="date" />
+          <Property Name="TrainingOn" Type="nvarchar" MaxLength="2000" />
+          <Property Name="Hour" Type="int" />
+          <Property Name="Mentor" Type="int" />
+          <Property Name="PersonId" Type="int" />
+        </EntityType>
+        <EntityType Name="AttendanceMaster">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AttendanceDetailId" Type="int" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="RoleId" Type="int" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Role" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK__Attendanc__Atten__182C9B23">
+          <End Role="AttendanceDetails" Type="Self.AttendanceDetails" Multiplicity="0..1" />
+          <End Role="AttendanceMaster" Type="Self.AttendanceMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AttendanceDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AttendanceMaster">
+              <PropertyRef Name="AttendanceDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Attendanc__Perso__15502E78">
+          <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+          <End Role="AttendanceDetails" Type="Self.AttendanceDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AttendanceDetails">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Person__RoleId__1273C1CD">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LogBookModelStoreContainer">
+          <EntitySet Name="AttendanceDetails" EntityType="Self.AttendanceDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AttendanceMaster" EntityType="Self.AttendanceMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Attendanc__Atten__182C9B23" Association="Self.FK__Attendanc__Atten__182C9B23">
+            <End Role="AttendanceDetails" EntitySet="AttendanceDetails" />
+            <End Role="AttendanceMaster" EntitySet="AttendanceMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Attendanc__Perso__15502E78" Association="Self.FK__Attendanc__Perso__15502E78">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="AttendanceDetails" EntitySet="AttendanceDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Person__RoleId__1273C1CD" Association="Self.FK__Person__RoleId__1273C1CD">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Person" EntitySet="Person" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LogBookModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AttendanceDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AttendanceDate" Type="DateTime" Precision="0" />
+          <Property Name="TrainingOn" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="Hour" Type="Int32" />
+          <Property Name="Mentor" Type="Int32" />
+          <Property Name="PersonId" Type="Int32" />
+          <NavigationProperty Name="AttendanceMasters" Relationship="Self.FK__Attendanc__Atten__182C9B23" FromRole="AttendanceDetails" ToRole="AttendanceMaster" />
+          <NavigationProperty Name="Person" Relationship="Self.FK__Attendanc__Perso__15502E78" FromRole="AttendanceDetails" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="AttendanceMaster">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AttendanceDetailId" Type="Int32" />
+          <NavigationProperty Name="AttendanceDetail" Relationship="Self.FK__Attendanc__Atten__182C9B23" FromRole="AttendanceMaster" ToRole="AttendanceDetails" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleId" Type="Int32" />
+          <NavigationProperty Name="AttendanceDetails" Relationship="Self.FK__Attendanc__Perso__15502E78" FromRole="Person" ToRole="AttendanceDetails" />
+          <NavigationProperty Name="Role" Relationship="Self.FK__Person__RoleId__1273C1CD" FromRole="Person" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Role1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="People" Relationship="Self.FK__Person__RoleId__1273C1CD" FromRole="Roles" ToRole="Person" />
+        </EntityType>
+        <Association Name="FK__Attendanc__Atten__182C9B23">
+          <End Role="AttendanceDetails" Type="Self.AttendanceDetail" Multiplicity="0..1" />
+          <End Role="AttendanceMaster" Type="Self.AttendanceMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AttendanceDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AttendanceMaster">
+              <PropertyRef Name="AttendanceDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Attendanc__Perso__15502E78">
+          <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+          <End Role="AttendanceDetails" Type="Self.AttendanceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AttendanceDetails">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Person__RoleId__1273C1CD">
+          <End Role="Roles" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LogBookDBContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AttendanceDetails" EntityType="Self.AttendanceDetail" />
+          <EntitySet Name="AttendanceMasters" EntityType="Self.AttendanceMaster" />
+          <EntitySet Name="People" EntityType="Self.Person" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <AssociationSet Name="FK__Attendanc__Atten__182C9B23" Association="Self.FK__Attendanc__Atten__182C9B23">
+            <End Role="AttendanceDetails" EntitySet="AttendanceDetails" />
+            <End Role="AttendanceMaster" EntitySet="AttendanceMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Attendanc__Perso__15502E78" Association="Self.FK__Attendanc__Perso__15502E78">
+            <End Role="Person" EntitySet="People" />
+            <End Role="AttendanceDetails" EntitySet="AttendanceDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Person__RoleId__1273C1CD" Association="Self.FK__Person__RoleId__1273C1CD">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Person" EntitySet="People" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LogBookModelStoreContainer" CdmEntityContainer="LogBookDBContext">
+          <EntitySetMapping Name="AttendanceDetails">
+            <EntityTypeMapping TypeName="LogBookModel.AttendanceDetail">
+              <MappingFragment StoreEntitySet="AttendanceDetails">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AttendanceDate" ColumnName="AttendanceDate" />
+                <ScalarProperty Name="TrainingOn" ColumnName="TrainingOn" />
+                <ScalarProperty Name="Hour" ColumnName="Hour" />
+                <ScalarProperty Name="Mentor" ColumnName="Mentor" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AttendanceMasters">
+            <EntityTypeMapping TypeName="LogBookModel.AttendanceMaster">
+              <MappingFragment StoreEntitySet="AttendanceMaster">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AttendanceDetailId" ColumnName="AttendanceDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="LogBookModel.Person">
+              <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="LogBookModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Role1" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

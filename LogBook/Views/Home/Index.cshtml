@@ -1,0 +1,36 @@
+﻿
+<p>
+
+
+    <div>
+
+        <input type="button" id="DailyRegister"  value="Daily Register" onclick="location.href='@Url.Action("Create", "DailyRegister",new {id = UrlParameter.Optional })'" />
+
+    </div>
+
+    <div>
+        <input type="button" id="WeeklyLogBook" value="Weekly Logbook" />
+
+    </div>
+
+
+    <div>
+
+        <input type="button" id="MonthlyEvaluation" value="Monthly Evaluation" /> 
+
+    </div>
+
+    <div>
+
+        <div class="editor-label">
+            @Html.Label("Administration")
+        </div>
+
+        <input type="button" class="button" id="UserManagement" value="User Management" width="90" height="100" />
+
+    </div>
+
+ 
+
+</p>
+
